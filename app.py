@@ -6,7 +6,7 @@ from flask import session
 from flask import redirect, url_for
 import os
 from src.models import db, User
-
+from src.Blueprints.post import Post
 
 
 
@@ -27,6 +27,7 @@ def index():
 @app.route('/login')
 def login():
     return render_template("login.html")
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def handle_login():
