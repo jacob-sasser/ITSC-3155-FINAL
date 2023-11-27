@@ -3,51 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Page</title>
+  <title>HelpOut - Login</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
       margin: 0;
       padding: 0;
+    }
+    header {
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
     }
-    .login-container {
-      background-color: white;
+    nav li {
+      margin-right: 20px;
+    }
+    nav a {
+      text-decoration: none;
+      color: white;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
       padding: 20px;
+      border: 1px solid #ccc;
       border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-color: #f9f9f9;
     }
-    .login-container h2 {
+    h2 {
       text-align: center;
     }
-    .login-container form {
+    form {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-    .login-container input {
+    input[type="text"],
+    input[type="password"] {
       padding: 8px;
       border-radius: 3px;
       border: 1px solid #ccc;
     }
-    .login-container input[type="submit"] {
-      background-color: #007bff;
+    input[type="submit"] {
+      padding: 8px;
+      border-radius: 3px;
+      border: none;
+      background-color: #333;
       color: white;
       cursor: pointer;
     }
-    .login-container input[type="submit"]:hover {
-      background-color: #0056b3;
+    input[type="submit"]:hover {
+      background-color: #555;
+    }
+    .signup-link {
+      text-align: center;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <h2>Login</h2>
-    <form action="your-server-side-script.php" method="POST">
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Sign Up</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <h2>Login to HelpOut</h2>
+    <form action="#" method="POST">
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" required>
       
@@ -56,6 +93,9 @@
       
       <input type="submit" value="Login">
     </form>
+    <div class="signup-link">
+      <p>Don't have an account? <a href="#">Sign Up</a></p>
+    </div>
   </div>
 </body>
 </html>
