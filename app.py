@@ -39,10 +39,19 @@ def handle_login():
 
         if user and check_password_hash(user.password, password):
             session['user_id'] = user.id
-            return redirect(url_for('index'))
+
+            '''session['user']= {
+        
+                'email' : user.email,
+                'username':user.name,
+                'user_id':user.id,
+                'pfp':user.pfp
+                              }'''
+                        
+            return redirect('/')
 
         return 'Invalid email or password'
-
+    
     return render_template('login.html')
 
 
@@ -67,7 +76,8 @@ def handle_registration():
         db.session.add(new_user)
         db.session.commit()
 
-        return 'User registered successfully'
+        session['user_id']=new_user.id
+        return redirect('/')
 
     return render_template('register.html')
 

@@ -31,6 +31,7 @@ class Post(db.Model):
     body = db.Column(db.String())
     timestamp =db.Column(db.String())
     byBusiness = db.Column(db.Boolean, db.ForeginKey('User.business'))
+    repliesCount=db.Column(db.Integer())
     
     
     def getUser(self):
@@ -45,6 +46,8 @@ class Post(db.Model):
 
     def isBusiness(self):
         return Post.query.get(self.byBusiness)
+    def getRepliesCount(self):
+        return Post.query.get(self.repliesCount)
 
     
 class Reply(db.Model):

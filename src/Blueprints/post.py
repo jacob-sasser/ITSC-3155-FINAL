@@ -12,7 +12,7 @@ def create_post(post_id):
     
     time=str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     body=request.form.get('body','')
-    byBusiness = session['user'].get('user_id')
+    byBusiness = session['user_id'].get('user_id')
     if title == '' or body=='':
         abort()
     else: 
@@ -28,11 +28,12 @@ def create_reply(post_id):
     
     time=str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     body=request.form.get('body','')
+
+    Post.query.filter_by(post_id).update
     if body=='':
         abort()
     else: 
         newReply= Reply(user_id=user_id, post_id= post_id, body=body, timestamp=time)
         db.session.add(newReply)
         db.session.commit()
-    #todo create redirect to post/reply
 
