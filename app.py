@@ -5,7 +5,9 @@ from werkzeug.security import generate_password_hash
 from flask import session
 from flask import redirect, url_for
 import os
-    
+from src.models import db, User
+
+
 
 
 app=Flask(__name__)
@@ -15,7 +17,7 @@ app.secret_key = os.urandom(24)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user_data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+db.init_app(app)
 
 
 @app.route('/')
@@ -70,14 +72,7 @@ def handle_registration():
 
 
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    email = db.Column(db.String(120), unique=True)
-    password = db.Column(db.String(80))
 
-    def __repr__(self):
-        return '<User %r>' % self.username
 
 
 
