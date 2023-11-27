@@ -7,38 +7,71 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
       margin: 0;
       padding: 0;
+    }
+    header {
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
     }
-    .about-container {
-      background-color: white;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    nav li {
+      margin-right: 20px;
     }
-    .about-container h2 {
-      text-align: center;
+    nav a {
+      text-decoration: none;
+      color: white;
     }
-    .about-container p {
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    .about-section {
+      margin-bottom: 40px;
+    }
+    .about-section h2 {
+      margin-bottom: 10px;
+    }
+    .about-section p {
       line-height: 1.6;
     }
   </style>
 </head>
 <body>
-  <div class="about-container">
-    <h2>About Us</h2>
-    <p>
-      We are a passionate team dedicated to help young individuals needing help with their college career and plans afterwards. Our goal is to empower individuals and businesses through technology. With a focus on user experience and cutting-edge technology, we strive to deliver exceptional products.
-    </p>
-    <p>
-      
-    </p>
-    </p>
-  </div>
-</body>
-</html>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#team">Our Team</a></li>
+        <li><a href="#mission">Mission</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <div id="about" class="about-section">
+      <h2>About Us</h2>
+      <p>
+        Welcome to our company! We are dedicated to providing innovative solutions that meet the needs of our customers.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed suscipit felis eget odio ornare, at blandit urna rutrum. Nulla facilisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis pharetra ultrices est, a vehicula leo consectetur ac.
+      </p>
+    </div>
+    <div id="team" class="about-section">
+      <h2>Our Team</h2>
+      <p>
+        Meet our talented team of professionals who work tirelessly to bring our vision to life.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed suscipit felis eget odio ornare, at blandit urna rutrum. Nulla facilisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posu
