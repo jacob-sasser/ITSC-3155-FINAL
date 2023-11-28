@@ -1,24 +1,21 @@
-from flask import Flask, abort, render_template, request
+from flask import Flask, render_template, request, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import check_password_hash
-from werkzeug.security import generate_password_hash
-from flask import session
-from flask import redirect, url_for
+from werkzeug.security import check_password_hash, generate_password_hash
+from src.models import User, Post, Reply
+from src.models import db
+from flask import flash
 import os
-from src.models import db, User
-from src.Blueprints.post import Post, router as post_router
 
-
-
-
-
-app=Flask(__name__)
+app = Flask(__name__)
 app.secret_key = os.urandom(24)
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user_data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
+
+with app.app_context():
+    db.create_all()
+
 
 @app.route('/index')
 def index():
@@ -28,30 +25,22 @@ def index():
 def login():
     return render_template("login.html")
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def handle_login():
     if request.method == 'POST':
-        email = request.form.get('email')
+        username = request.form.get('username')
         password = request.form.get('password')
 
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(name=username).first()
 
         if user and check_password_hash(user.password, password):
-            session['user_id'] = user.id
+            session['user_id'] = user.user_id
 
-            session['user']= {
-        
-                'email' : user.email,
-                'username':user.name,
-                'user_id':user.id,
-                'pfp':user.pfp
-                              }
-                        
-            return redirect('/')
+            flash('Login successful! Welcome back, {}'.format(username), 'success')
+            return redirect(url_for('index'))
 
-        return 'Invalid email or password'
-    
+        flash('Login failed. Invalid username or password', 'error')
+
     return render_template('login.html')
 
 
@@ -66,28 +55,23 @@ def register():
 @app.route('/register', methods=['POST'])
 def handle_registration():
     if request.method == 'POST':
-        name = request.form.get('username','')
-        email = request.form.get('email','')
-        password = request.form.get('password','')
+        name = request.form.get('username', '')
+        email = request.form.get('email', '')
+        password = request.form.get('password', '')
 
         hashed_password = generate_password_hash(password)
-
         new_user = User(name=name, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
-        session['user_id']=new_user.id
-        return redirect('/')
-    return redirect('/')
+        session['user_id'] = new_user.user_id
 
-    return render_template('register.html')
+        flash('Registration successful! Welcome, {}'.format(name), 'success')
 
-
-
-
+        return redirect(url_for('index'))
+    return redirect(url_for('register'))
 
 
 
 if __name__ == "__main__":
-   
     app.run(debug=True)
