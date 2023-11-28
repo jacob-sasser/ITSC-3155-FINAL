@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from models import Post, User, db, Reply
 
 
+
 router=Blueprint('posts_router', __name__, url_prefix='/posts')
 @router.get('/<post_id>')
 def create_post(post_id):
@@ -28,8 +29,8 @@ def create_reply(post_id):
     
     time=str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     body=request.form.get('body','')
+    
 
-    Post.query.filter_by(post_id).update
     if body=='':
         abort()
     else: 
