@@ -20,7 +20,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 
-@app.route('/')
+@app.route('/index')
 def index():
     return render_template("index.html")
 
@@ -40,13 +40,13 @@ def handle_login():
         if user and check_password_hash(user.password, password):
             session['user_id'] = user.id
 
-            '''session['user']= {
+            session['user']= {
         
                 'email' : user.email,
                 'username':user.name,
                 'user_id':user.id,
                 'pfp':user.pfp
-                              }'''
+                              }
                         
             return redirect('/')
 
@@ -63,7 +63,7 @@ def about():
 def register():
     return render_template("register.html")
 
-@app.route('/path-to-your-registration-handler', methods=['POST'])
+@app.route('/register', methods=['POST'])
 def handle_registration():
     if request.method == 'POST':
         name = request.form['name']
@@ -72,12 +72,13 @@ def handle_registration():
 
         hashed_password = generate_password_hash(password)
 
-        new_user = User(name=name, email=email, password=hashed_password)
+        new_user = User(user_id=1, name=name, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
         session['user_id']=new_user.id
         return redirect('/')
+    redirect('/')
 
     return render_template('register.html')
 
