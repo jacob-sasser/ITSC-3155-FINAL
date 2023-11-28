@@ -66,19 +66,19 @@ def register():
 @app.route('/register', methods=['POST'])
 def handle_registration():
     if request.method == 'POST':
-        name = request.form['name']
+        name = request.form['username']
         email = request.form['email']
         password = request.form['password']
 
         hashed_password = generate_password_hash(password)
 
-        new_user = User(user_id=1, name=name, email=email, password=hashed_password)
+        new_user = User( name=name, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
         session['user_id']=new_user.id
         return redirect('/')
-    redirect('/')
+    return redirect('/')
 
     return render_template('register.html')
 
