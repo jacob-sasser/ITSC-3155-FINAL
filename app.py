@@ -6,19 +6,19 @@ from flask import session
 from flask import redirect, url_for
 import os
 from src.models import db, User
-from src.Blueprints.post import Post
+from src.Blueprints.post import Post, router as post_router
+
+
 
 
 
 app=Flask(__name__)
 app.secret_key = os.urandom(24)
 
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user_data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
-
 
 @app.route('/index')
 def index():
@@ -32,8 +32,8 @@ def login():
 @app.route('/login', methods=['GET', 'POST'])
 def handle_login():
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+        email = request.form.get('email')
+        password = request.form.get('password')
 
         user = User.query.filter_by(email=email).first()
 
@@ -66,13 +66,13 @@ def register():
 @app.route('/register', methods=['POST'])
 def handle_registration():
     if request.method == 'POST':
-        name = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
+        name = request.form.get('username','')
+        email = request.form.get('email','')
+        password = request.form.get('password','')
 
         hashed_password = generate_password_hash(password)
 
-        new_user = User( name=name, email=email, password=hashed_password)
+        new_user = User(name=name, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
@@ -89,4 +89,5 @@ def handle_registration():
 
 
 if __name__ == "__main__":
+   
     app.run(debug=True)

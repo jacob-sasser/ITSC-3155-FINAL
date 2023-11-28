@@ -7,11 +7,11 @@ db= SQLAlchemy()
 
 class User(db.Model):
     __tablename__ = 'users'
-    user_id = Column(db.Integer, nullable=False, primary_key=True)
-    name = Column(db.String(50))
-    email = Column(db.String(120), unique=True)
-    password = Column(db.String(80))
-    pfp=Column(db.String)
+    user_id = db.Column(db.Integer, nullable=False, primary_key=True)
+    name = db.Column(db.String(50))
+    email = db.Column(db.String(120), unique=True)
+    password = db.Column(db.String(80))
+    #pfp=Column(db.String)
     business=Column(db.Boolean(), default=False, nullable=False)
 
     def getUser(self):
