@@ -20,10 +20,10 @@ with app.app_context():
 @app.route('/index')
 def index():
     
-    '''
-    just test for logout function
+   
+    #just test for logout function
     if 'user_id' in session:
-        flash('user_id')'''
+        flash('user_id')
         
     return render_template("index.html")
 
@@ -76,6 +76,10 @@ def handle_registration():
 
         return redirect(url_for('index'))
     return redirect(url_for('register'))
+
+@app.get('/user/<name>/test')
+def userpage():
+    return render_template("about.html")
 @app.get('/logout')
 def logout():
     if 'user_id' not in session:
