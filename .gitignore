@@ -6,3 +6,4 @@ src/__pycache__/models.cpython-311.pyc
 *.pyc
 *.pyc
 src/__pycache__/models.cpython-311.pyc
+instance/user_data.db
