@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,12 +12,14 @@
       padding: 0;
       background-color: #f4f4f4;
     }
+
     header {
       background-color: #333;
       color: white;
       padding: 20px;
       text-align: center;
     }
+
     nav ul {
       list-style: none;
       padding: 0;
@@ -24,18 +27,22 @@
       display: flex;
       justify-content: center;
     }
+
     nav li {
       margin-right: 20px;
     }
+
     nav a {
       text-decoration: none;
       color: white;
       font-size: 18px;
       transition: color 0.3s ease;
     }
+
     nav a:hover {
       color: #ff9900;
     }
+
     .container {
       max-width: 900px;
       margin: 20px auto;
@@ -45,13 +52,16 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
+
     h1 {
       color: #333;
     }
+
     p {
       color: #555;
       line-height: 1.6;
     }
+
     .cta-button {
       display: inline-block;
       padding: 10px 20px;
@@ -62,46 +72,129 @@
       border-radius: 5px;
       transition: background-color 0.3s ease;
     }
+
     .cta-button:hover {
       background-color: #ff9900;
     }
 
     .alert-success {
-    color: green;
-}
+      color: green;
+    }
 
-  .alert-error {
-    color: red;
-}
+    .alert-error {
+      color: red;
+    }
+
+    /* .dropbtn {
+    background-color: #333;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+} */
+
+    .dropbtn:hover,
+    .dropbtn:focus {
+      background-color: #555;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f1f1f1
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .account-link {
+      background-color: #ff9900;
+      color: white;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .account-link:hover {
+      background-color: #333;
+    }
+
+    .account-link a {
+      color: white;
+      text-decoration: none;
+
+    }
+
+    .dropbtn {
+      background-color: #ff9900;
+      color: white;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
   </style>
 </head>
+
 <body>
   <header>
     <h1>HelpOut</h1>
     <nav>
       <ul>
-            <li><a href="index">Home</a></li>
-            <li><a href="about">About</a></li>
-            <li><a href="services">Services</a></li>
-            <li><a href="contact">Contact</a></li>
-            <li><a href="login">Sign Up</a></li>
-            <li><a href="register">Register</a></li>
-            <li><a href = "logout"> Logout</a></li>
-            
+        <li><a href="index">Home</a></li>
+        <li><a href="about">About</a></li>
+        <li><a href="services">Services</a></li>
+        <li><a href="contact">Contact</a></li>
+        {% if user_name %}
+        <li class="dropdown">
+          <a href="javascript:void(0)" class="dropbtn">Welcome, {{ user_name }}!</a>
+          <div class="dropdown-content">
+            <a href="edit_account">Edit Account</a>
+            <a href="logout">Logout</a>
+          </div>
+        </li>
+        {% else %}
+        <li><a href="register">Register</a></li>
+        <a href="login" class="account-link">Sign In</a>
+        {% endif %}
       </ul>
     </nav>
   </header>
   {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
-      {% for category, message in messages %}
-          <div class="flash-message {{ category }}">{{ message }}</div>
-      {% endfor %}
+  {% for category, message in messages %}
+  <div class="flash-message {{ category }}">{{ message }}</div>
+  {% endfor %}
   {% endif %}
-{% endwith %}
+  {% endwith %}
   <div class="container">
     <h2>Welcome to HelpOut</h2>
     <p>Your gateway to personalized academic guidance and scholarship opportunities.</p>
     <a href="#" class="cta-button">Get Started</a>
   </div>
 </body>
+
 </html>
