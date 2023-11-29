@@ -3,9 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 from src.models import User, Post, Reply
 from src.models import db
-from src.Blueprints.post import router as post_router
-from src.Blueprints.userpage import router as user_router
-
 from flask import flash
 import os
 
@@ -18,18 +15,17 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
-app.register_blueprint(user_router)
-app.register_blueprint(post_router)
+
 
 @app.route('/index')
 def index():
-    
-   
-    #just test for logout function
+    user_name = None
     if 'user_id' in session:
-        flash('user_id')
-        
-    return render_template("index.html")
+        user = User.query.get(session['user_id'])
+        if user:
+            user_name = user.name
+    return render_template("index.html", user_name=user_name)
+
 
 @app.route('/login')
 def login():
@@ -81,17 +77,13 @@ def handle_registration():
         return redirect(url_for('index'))
     return redirect(url_for('register'))
 
-
-
-
-
-
 @app.get('/logout')
 def logout():
     if 'user_id' not in session:
         return redirect('/login')
     del session['user_id']
     return redirect('/index')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
