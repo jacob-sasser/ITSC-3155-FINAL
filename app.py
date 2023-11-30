@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for, json
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 from src.models import User, Post, Reply
@@ -48,6 +48,35 @@ def handle_login():
         flash('Login failed. Invalid username or password', 'error')
 
     return render_template('login.html')
+
+
+@app.route('/edit_account', methods=['GET', 'POST'])
+
+def edit_account():
+    if request.method=='POST':
+
+        user_id = session.get('user_id')
+        new_username= request.form.get('new_username')
+        user = User.query.get(user_id)
+        new_password = request.form.get('new_password')
+        new_email = request.form.get('new_email')
+        hashed_password = generate_password_hash(new_password)
+
+        if user:
+            if new_username:
+                user.name= new_username
+                
+            if new_password:
+                
+                user.password=hashed_password
+                
+                
+            if new_email:
+                user.email=new_email
+        db.session.commit()
+        return redirect('/index')
+        
+    return render_template("edit_account.html")
 
 
 @app.route('/about')
