@@ -17,6 +17,17 @@ with app.app_context():
     db.create_all()
 
 
+def get_info():
+    user_name = None
+    user_email=None
+    if 'user_id' in session:
+        user = User.query.get(session['user_id'])
+        if user:
+            user_name = user.name
+            user_email = user.email
+            return user_name, user.email
+
+
 @app.route('/index')
 def index():
     user_name = None
@@ -26,6 +37,10 @@ def index():
             user_name = user.name
     return render_template("index.html", user_name=user_name)
 
+#just so I dont have to type /index it annoys me
+@app.route('/')
+def home():
+    return render_template("index.html")
 
 @app.route('/login')
 def login():
@@ -53,14 +68,22 @@ def handle_login():
 @app.route('/edit_account', methods=['GET', 'POST'])
 
 def edit_account():
-    if request.method=='POST':
+    current_username = get_info()[0]
+    current_email=get_info()[1]
 
+    if request.method=='POST':
+        
         user_id = session.get('user_id')
-        new_username= request.form.get('new_username')
         user = User.query.get(user_id)
+        
+        new_username= request.form.get('new_username')
+        
         new_password = request.form.get('new_password')
         new_email = request.form.get('new_email')
         hashed_password = generate_password_hash(new_password)
+
+        
+        
 
         if user:
             if new_username:
@@ -76,7 +99,7 @@ def edit_account():
         db.session.commit()
         return redirect('/index')
         
-    return render_template("edit_account.html")
+    return render_template("edit_account.html",current_username=current_username, current_email=current_email )
 
 
 @app.route('/about')

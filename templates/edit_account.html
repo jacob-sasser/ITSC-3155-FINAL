@@ -87,21 +87,22 @@
   <div class="container">
     <h2>Edit your HelpOut account</h2>
     <form action="#" method="POST">
-      <label for="new_username">Current Username:  {{name}}</label>
+      <body>Current Username: {{current_username}}</body>
+      <label for="new_username">Update Username:  {{name}}</label>
       <input type="text" id="new_username" name="new_username">
       
-      <label for="new_password">Current Password:  {{password}} </label>
+      <label for="new_password">Update Password:  {{password}} </label>
       <input type="password" id="new_password" name="new_password">
-      
-      <label for="new_email">Current Email: {{email}}</label>
+      <body>Current Email: {{current_email}}</body>
+      <label for="new_email">Update Email: {{email}}</label>
       <input type="email" id="new_email" name="new_email" >
 
       <br>
       <input type="submit" value="Edit Account">
     </form>
-    <div class="signup-link">
+    <!---<div class="signup-link">
       <p>Don't have an account? <a href="/register">Sign Up</a></p>
-    </div>
+    </div>!-->
   </div>
 </body>
 </html>
