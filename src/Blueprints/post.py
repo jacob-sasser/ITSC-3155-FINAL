@@ -6,8 +6,8 @@ from src.models import Post, db, Reply
 
 
 
-router=Blueprint('posts_router', __name__, url_prefix='/posts')
-@router.get('/<post_id>')
+router=Blueprint('posts_router', __name__, url_prefix='/posts', template_folder='templates')
+@router.route('/<post_id>')
 def create_post(post_id):
     title= request.form.get('title', '')
     user_id=session['user_id'].get('user_id')

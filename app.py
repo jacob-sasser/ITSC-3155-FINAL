@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, session, redirect, url_for, json
+from flask import Flask, render_template, request, session, redirect, url_for, json, Blueprint,flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 from src.models import User, Post, Reply
 from src.models import db
-from flask import flash
+from src.Blueprints.post import router as post_router
 import os
 
 app = Flask(__name__)
@@ -16,6 +16,7 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+@app.register_blueprint(post_router, url_prefix='/post')
 
 def get_info():
     user_name = None
@@ -100,6 +101,13 @@ def edit_account():
         return redirect('/index')
         
     return render_template("edit_account.html",current_username=current_username, current_email=current_email )
+
+
+
+@post_router.route('/post/<int:post_id>')
+def view_post(post_id):
+    post=Post.query.get(post_id)
+    return render_template("post.html", post=post)
 
 
 @app.route('/about')
