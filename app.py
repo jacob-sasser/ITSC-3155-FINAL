@@ -136,18 +136,19 @@ def handle_registration():
 def view_posts():
     # Retrieve all posts from the database
     posts = Post.query.all()
+    
     return render_template("post.html", posts=posts)
+    
 
 @app.route('/create_post', methods=['GET', 'POST'])
 def create_post():
     if request.method == 'POST':
         title = request.form.get('title', '')
         body = request.form.get('body', '')
-
         user_id = session.get('user_id')
-
+        post_id=session.get('post_id')
         if title and body:
-            new_post = Post(user_id=user_id, title=title, body=body)
+            new_post = Post(user_id=user_id,  title=title, body=body)
             db.session.add(new_post)
             db.session.commit()
             flash('Post created successfully', 'success')
@@ -156,7 +157,7 @@ def create_post():
         flash('Title and body are required to create a post.', 'error')
     return render_template("post.html")
         
-@app.route('/<int:post_id>/create_reply', methods=['GET', 'POST'])
+@app.route('/<int:post_id>/create_reply', methods=['POST'])
 def reply_to_post(post_id):
     if request.method == 'POST':
         user_id = session.get('user_id')

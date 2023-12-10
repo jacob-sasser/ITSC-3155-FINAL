@@ -32,7 +32,7 @@
             <p>{{ post.body }}</p>
 
             <!-- Form to reply to a post -->
-            <form action="{{ url_for('reply_to_post', post_id=post.id) }}" method="post">
+            <form action="{{ url_for('reply_to_post', post_id=post.post_id) }}" method="post">
                 <label for="reply_body">Your Reply:</label><br>
                 <textarea id="reply_body" name="body" rows="3" cols="40"></textarea><br>
                 <input type="submit" value="Reply">
