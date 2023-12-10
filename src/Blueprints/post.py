@@ -23,7 +23,7 @@ def create_post(post_id):
         db.session.commit()
 
 
-@router.route('/<int:post_id>/create_reply', methods=['POST   ']) 
+@router.route('/<int:post_id>/create_reply', methods=['GET','POST']) 
 def create_reply(post_id):
     
     user_id=session['user_id'].get('user_id')

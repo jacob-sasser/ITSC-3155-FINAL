@@ -138,7 +138,10 @@ def view_posts():
     posts = Post.query.all()
     
     return render_template("post.html", posts=posts)
-    
+
+
+
+
 
 @app.route('/create_post', methods=['GET', 'POST'])
 def create_post():
@@ -168,8 +171,9 @@ def reply_to_post(post_id):
             db.session.add(new_reply)
             db.session.commit()
             flash('Reply added successfully', 'success')
-            return redirect(url_for('post'))
+            return redirect(url_for('posts.view_post', post_id=post_id)) 
 
+    
         flash('Reply cannot be empty.', 'error')
     return render_template("post.html", post_id=post_id)
 @app.get('/logout')

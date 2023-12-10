@@ -1,4 +1,7 @@
 
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,18 +27,12 @@
     <h2>Existing Posts</h2>
     <ul>
         {% for post in posts %}
-        <li>
-            <h3>{{ post.title }}</h3>
-            <p>{{ post.body }}</p>
-
-            <!-- Form to reply to a post -->
-            <form action="{{ url_for('reply_to_post', post_id=post.post_id) }}" method="post">
-                <label for="reply_body">Your Reply:</label><br>
-                <textarea id="reply_body" name="body" rows="3" cols="40"></textarea><br>
-                <input type="submit" value="Reply">
-            </form>
-        </li>
+    <h2><a href="{{ url_for('view_posts', post_id=post.id) }}">{{ post.title }}</a></h2>
+    <p>{{ post.content }}</p>
+    <!-- Other post details or content -->
         {% endfor %}
+
+       
     </ul>
 </body>
 </html>

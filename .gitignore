@@ -8,3 +8,4 @@ src/__pycache__/models.cpython-311.pyc
 src/__pycache__/models.cpython-311.pyc
 instance/user_data.db
 *.db
+user_data.db
