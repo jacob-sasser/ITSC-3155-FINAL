@@ -168,23 +168,22 @@
         <li><a href="/about">About</a></li>
         <li><a href="/contact">Contact</a></li>
         <li><a href="/post">Forum</a></li>
-        <li><a href="/login">Log in</a></li>
-        <li><a href="/register">Register</a></li>
         {% if user_name %}
         <li class="dropdown">
           <a href="javascript:void(0)" class="dropbtn">Welcome, {{ user_name }}!</a>
           <div class="dropdown-content">
-            <a href="edit_account">Edit Account</a>
-            <a href="logout">Logout</a>
+            <a href="/edit_account">Edit Account</a>
+            <a href="/logout">Logout</a>
           </div>
         </li>
         {% else %}
-        <li><a href="register">Register</a></li>
-        <a href="login" class="account-link">Sign In</a>
+        <li><a href="/register">Register</a></li>
+        <li><a href="/login">Log in</a></li>
         {% endif %}
       </ul>
     </nav>
   </header>
+
   {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
   {% for category, message in messages %}
