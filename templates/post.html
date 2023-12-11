@@ -1,9 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+    <style>
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f4f4f4;
+        }
+    
+        header {
+          background-color: #333;
+          color: white;
+          padding: 20px;
+          text-align: center;
+        }
+    
+        nav ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          justify-content: center;
+        }
+    
+        nav li {
+          margin-right: 20px;
+        }
+    
+        nav a {
+          text-decoration: none;
+          color: white;
+          font-size: 18px;
+          transition: color 0.3s ease;
+        }
+    
+        nav a:hover {
+          color: #ff9900;
+        }
+    
+        .container {
+          max-width: 900px;
+          margin: 20px auto;
+          padding: 20px;
+          background-color: white;
+          border-radius: 5px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          text-align: center;
+        }
+    
+        h1 {
+          color: #333;
+          text-decoration-color: white;
+        }
+    
+        p {
+          color: #555;
+          line-height: 1.6;
+        }
+        </style>
 <head>
-    <meta charset="UTF-8">
-    <title>Posts</title>
-    <link rel ="stylesheet" href="/static/styles/post.css">
+    <header>
+        <h1>HelpOut</h1>
+        <nav>
+          <ul>
+            <li><a href="/index">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/post">Forum</a></li>
+            {% if user_name %}
+            <li class="dropdown">
+              <a href="javascript:void(0)" class="dropbtn">Welcome, {{ user_name }}!</a>
+              <div class="dropdown-content">
+                <a href="/edit_account">Edit Account</a>
+                <a href="/logout">Logout</a>
+              </div>
+            </li>
+            {% else %}
+            <li><a href="/register">Register</a></li>
+            <li><a href="/login">Log in</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </header>
+   
 </head>
 <body>
     <h1>Posts</h1>

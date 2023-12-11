@@ -38,6 +38,10 @@ def index():
             user_name = user.name
     return render_template("index.html", user_name=user_name)
 
+@app.route('/contact')
+def contact():
+    return render_template("contact.html")
+
 
 @app.route('/')
 def home():
