@@ -39,3 +39,10 @@ def create_reply(post_id):
         db.session.add(newReply)
         db.session.commit()
 
+
+@router.route('/<int:post_id>', methods=['GET'])
+def view_post(post_id):
+    user_id=session['user_id'].get('user_id')
+    post = Post.query.get_or_404(post_id)
+    replies = Reply.query.filter_by(post_id=post_id).all()
+    return render_template('individualpost.html', post=post, replies=replies)
