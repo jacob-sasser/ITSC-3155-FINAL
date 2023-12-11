@@ -9,6 +9,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(80))
     business = db.Column(db.Boolean, default=False)
+    replies = db.relationship('Reply', backref='user', lazy=True)
 
     def __repr__(self):
         return f'<User {self.name}>'
@@ -21,9 +22,11 @@ class Post(db.Model):
     body = db.Column(db.String())
     timestamp = db.Column(db.DateTime)
     byBusiness = db.Column(db.Boolean)
+    user = db.relationship('User', backref='posts')
 
     def __repr__(self):
         return f'<Post {self.title}>'
+
 
 class Reply(db.Model):
     __tablename__ = 'replies'
