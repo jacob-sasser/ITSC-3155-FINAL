@@ -141,7 +141,8 @@ def view_posts():
 
 
 
-
+ 
+ 
 
 @app.route('/create_post', methods=['GET', 'POST'])
 def create_post():
