@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 from src.models import User, Post, Reply,db
 from src.Blueprints.post import router
+from flask import session, redirect, url_for
 import os
 
 app = Flask(__name__)
@@ -16,8 +17,6 @@ with app.app_context():
     db.create_all()
 
 app.register_blueprint(router)
-
-
 
 def get_info():
     user_name = None
@@ -39,7 +38,7 @@ def index():
             user_name = user.name
     return render_template("index.html", user_name=user_name)
 
-#just so I dont have to type /index it annoys me
+
 @app.route('/')
 def home():
     return render_template("index.html")
@@ -83,9 +82,6 @@ def edit_account():
         new_password = request.form.get('new_password')
         new_email = request.form.get('new_email')
         hashed_password = generate_password_hash(new_password)
-
-        
-        
 
         if user:
             if new_username:
@@ -134,49 +130,63 @@ def handle_registration():
 
 @app.route('/post', methods=['GET'])
 def view_posts():
-    # Retrieve all posts from the database
     posts = Post.query.all()
-    
     return render_template("post.html", posts=posts)
 
 
+@app.route('/view_post/<int:post_id>')
+def view_post(post_id):
 
- 
- 
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login'))
+    post = Post.query.get_or_404(post_id)
+    replies = Reply.query.filter_by(post_id=post_id).order_by(Reply.timestamp).all()
+
+    return render_template('individualpost.html', post=post, replies=replies)
 
 @app.route('/create_post', methods=['GET', 'POST'])
 def create_post():
+    user_id = session.get('user_id')
+    if user_id is None:
+        flash('You must be logged in to create a post.', 'error')
+        return redirect(url_for('login'))
+
     if request.method == 'POST':
-        title = request.form.get('title', '')
-        body = request.form.get('body', '')
-        user_id = session.get('user_id')
-        post_id=session.get('post_id')
+        title = request.form.get('title', '').strip()
+        body = request.form.get('body', '').strip()
+
         if title and body:
-            new_post = Post(user_id=user_id,  title=title, body=body)
+            new_post = Post(user_id=user_id, title=title, body=body)
             db.session.add(new_post)
             db.session.commit()
             flash('Post created successfully', 'success')
             return redirect(url_for('index'))
 
         flash('Title and body are required to create a post.', 'error')
+
     return render_template("post.html")
+
         
 @app.route('/<int:post_id>/create_reply', methods=['POST'])
 def reply_to_post(post_id):
-    if request.method == 'POST':
-        user_id = session.get('user_id')
-        body = request.form.get('body', '')
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login'))  
 
-        if body:
-            new_reply = Reply(user_id=user_id, post_id=post_id, body=body)
-            db.session.add(new_reply)
-            db.session.commit()
-            flash('Reply added successfully', 'success')
-            return redirect(url_for('posts.view_post', post_id=post_id)) 
+    body = request.form.get('body', '')
+    if body:
+        new_reply = Reply(user_id=user_id, post_id=post_id, body=body)
+        db.session.add(new_reply)
+        db.session.commit()
+        flash('Reply added successfully', 'success')
+        return redirect(url_for('posts_router.view_post', post_id=post_id))
 
-    
-        flash('Reply cannot be empty.', 'error')
+    flash('Reply cannot be empty.', 'error')
     return render_template("post.html", post_id=post_id)
+
+
+
 @app.get('/logout')
 def logout():
     if 'user_id' not in session:
