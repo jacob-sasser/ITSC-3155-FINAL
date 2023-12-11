@@ -7,10 +7,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Post</title>
+    <link rel="stylesheet" href="/static/styles/post.css">
 </head>
+<style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
 
-<body>
+    header {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav li {
+      margin-right: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ff9900;
+    }
+</style>
+<header>
     <h1>View Post</h1>
+    <nav>
+      <ul>
+        <li><a href="/index">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/post">Forum</a></li>
+        {% if user_name %}
+        <li class="dropdown">
+          <a href="javascript:void(0)" class="dropbtn">Welcome, {{ user_name }}!</a>
+          <div class="dropdown-content">
+            <a href="/edit_account">Edit Account</a>
+            <a href="/logout">Logout</a>
+          </div>
+        </li>
+        {% else %}
+        <li><a href="/register">Register</a></li>
+        <li><a href="/login">Log in</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
 
     <div class="post">
         <h2>{{ post.title }}</h2>
@@ -23,26 +82,27 @@
 
     <h2>Replies</h2>
 
-    {% if post.replies %}
-        <div class="replies">
-            {% for reply in post.replies %}
-                <div class="reply">
-                    <p>{{ reply.body }}</p>
-                    <p>Replied by: {{ reply.user.name }}</p>
-                    <p>Replied at: {{ reply.timestamp }}</p>
-                </div>
-                <hr>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p>No replies yet.</p>
-    {% endif %}
+    {% if replies %}
+    <div class="replies">
+        {% for reply in replies %}
+            <div class="reply">
+                <p>{{ reply.body }}</p>
+                <p>Replied by: {{ reply.user.name }}</p>
+                <p>Replied at: {{ reply.timestamp }}</p>
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No replies yet.</p>
+{% endif %}
+
 
     <hr>
 
     <!-- Reply form -->
     <h2>Reply to Post</h2>
-    <form action="{{ url_for('reply_to_post', post_id=post.id) }}" method="POST">
+    <form action="{{ url_for('reply_to_post', post_id=post.post_id) }}" method="POST">
         <textarea name="body" cols="30" rows="5" placeholder="Enter your reply here"></textarea><br>
         <button type="submit">Submit Reply</button>
     </form>
